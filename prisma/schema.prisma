@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Perfil {
+  ADMIN
+  USER
+}
+
+enum EstadoLivro {
+  NOVO
+  BOM
+  USADO
+  DANIFICADO
+}
+
+enum StatusLivro {
+  DISPONIVEL
+  INDISPONIVEL
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  senha     String
+  perfil    Perfil   @default(USER)
+
+  compras   Compra[]
+
+  createdAt DateTime @default(now())
+}
+
+model Livro {
+  id        Int         @id @default(autoincrement())
+  titulo    String
+  autor     String
+  descricao String
+  imagem    String
+  preco     Float
+  estado    EstadoLivro
+  status    StatusLivro @default(DISPONIVEL)
+
+  compras   Compra[]
+
+  createdAt DateTime @default(now())
+}
+
+model Compra {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  livroId   Int
+  precoPago Float
+
+  user      User     @relation(fields: [userId], references: [id])
+  livro     Livro    @relation(fields: [livroId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+}
