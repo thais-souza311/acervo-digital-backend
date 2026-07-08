@@ -22,6 +22,10 @@ export class CompraService {
         livroId,
         userId,
         precoPago: livro.preco,
+        titulo: livro.titulo,
+        autor: livro.autor,
+        imagem: livro.imagem,
+        estado: livro.estado,
       },
     });
 
@@ -39,9 +43,6 @@ export class CompraService {
     return await prisma.compra.findMany({
       where: {
         userId,
-      },
-      include: {
-        livro: true,
       },
       orderBy: {
         createdAt: "desc",

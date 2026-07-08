@@ -10,7 +10,7 @@ export class AuthService {
     });
 
     if (existeUser) {
-      throw new Error("Erro ao criar usuario");
+      throw new Error("Erro ao criar usuario, usuario ja cadastrado!");
     }
 
     const senhaHashed = await bcrypt.hash(senha, 10);

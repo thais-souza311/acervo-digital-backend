@@ -51,13 +51,18 @@ model Livro {
 }
 
 model Compra {
-  id        Int      @id @default(autoincrement())
+  id        Int         @id @default(autoincrement())
   userId    Int
-  livroId   Int
+  livroId   Int?
   precoPago Float
 
-  user      User     @relation(fields: [userId], references: [id])
-  livro     Livro    @relation(fields: [livroId], references: [id], onDelete: Cascade)
+  titulo    String
+  autor     String
+  imagem    String
+  estado    EstadoLivro
 
-  createdAt DateTime @default(now())
+  user      User        @relation(fields: [userId], references: [id])
+  livro     Livro?      @relation(fields: [livroId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime    @default(now())
 }
